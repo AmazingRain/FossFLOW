@@ -21,9 +21,11 @@
     "docker:run": "docker compose -f compose.dev.yml up"
   },
   "devDependencies": {
+    "@types/i18next": "^12.1.0",
     "@types/node": "^18.19.0",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
+    "@types/react-i18next": "^7.8.3",
     "typescript": "^5.3.3"
   },
   "engines": {
@@ -31,6 +33,10 @@
     "npm": ">=9.0.0"
   },
   "dependencies": {
-    "dom-to-image-more": "^3.7.1"
+    "dom-to-image-more": "^3.7.1",
+    "i18next": "^25.4.2",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2",
+    "react-i18next": "^15.7.3"
   }
 }

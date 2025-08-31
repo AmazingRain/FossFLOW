@@ -10,7 +10,9 @@ import { DiagramData, mergeDiagramData, extractSavableData } from './diagramUtil
 import { StorageManager } from './StorageManager';
 import { DiagramManager } from './components/DiagramManager';
 import { storageManager } from './services/storageService';
+import ChangeLanguage from './components/ChangeLanguage';
 import './App.css';
+import { useTranslation } from 'react-i18next';
 
 const icons = flattenCollections([
   isoflowIsopack,
@@ -46,6 +48,17 @@ function App() {
   const [showStorageManager, setShowStorageManager] = useState(false);
   const [showDiagramManager, setShowDiagramManager] = useState(false);
   const [serverStorageAvailable, setServerStorageAvailable] = useState(false);
+  
+  // i18n
+  const [canI18n, setCanI18n] = useState(false);
+  const { t } = useTranslation('app');
+
+  useEffect(() => {
+    // http://localhost:3000/?canI18n=1
+    const params = new URLSearchParams(window.location.search);
+    // show demo
+    setCanI18n(params.get('canI18n') === '1');
+  }, [window.location.search]);
   
   // Initialize with empty diagram data
   // Create default colors for connectors
@@ -514,28 +527,28 @@ function App() {
   return (
     <div className="App">
       <div className="toolbar">
-        <button onClick={newDiagram}>New Diagram</button>
+        <button onClick={newDiagram}>{t('navBar.newDiagram')}</button>
         {serverStorageAvailable && (
           <button 
             onClick={() => setShowDiagramManager(true)}
             style={{ backgroundColor: '#2196F3', color: 'white' }}
           >
-            🌐 Server Storage
+            🌐 {t('navBar.serverStorage')}
           </button>
         )}
-        <button onClick={() => setShowSaveDialog(true)}>Save (Session Only)</button>
-        <button onClick={() => setShowLoadDialog(true)}>Load (Session Only)</button>
+        <button onClick={() => setShowSaveDialog(true)}>{t('navBar.saveSessionOnly')}</button>
+        <button onClick={() => setShowLoadDialog(true)}>{t('navBar.loadSessionOnly')}</button>
         <button 
           onClick={() => setShowImportDialog(true)}
           style={{ backgroundColor: '#28a745' }}
         >
-          📂 Import File
+          📂 {t('navBar.importFile')}
         </button>
         <button 
           onClick={() => setShowExportDialog(true)}
           style={{ backgroundColor: '#007bff' }}
         >
-          💾 Export File
+          💾 {t('navBar.exportFile')}
         </button>
         <button 
           onClick={() => {
@@ -551,7 +564,7 @@ function App() {
           }}
           title="Save to current session only"
         >
-          Quick Save (Session)
+          {t('navBar.quickSaveSession')}
         </button>
         <span className="current-diagram">
           {currentDiagram ? `Current: ${currentDiagram.name}` : diagramName || 'Untitled Diagram'}
@@ -560,6 +573,7 @@ function App() {
             (Session storage only - export to save permanently)
           </span>
         </span>
+        {canI18n && <ChangeLanguage />}
       </div>
 
       <div className="fossflow-container">
@@ -568,6 +582,7 @@ function App() {
           initialData={diagramData}
           onModelUpdated={handleModelUpdated}
           editorMode="EDITABLE"
+          canI18n={canI18n}
         />
       </div>
 

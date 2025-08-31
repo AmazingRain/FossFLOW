@@ -16,4 +16,5 @@ export interface IsoflowProps {
   enableDebugTools?: boolean;
   editorMode?: keyof typeof EditorModeEnum;
   renderer?: RendererProps;
+  canI18n?: boolean;
 }
